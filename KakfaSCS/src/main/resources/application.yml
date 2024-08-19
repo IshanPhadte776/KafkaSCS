@@ -19,10 +19,12 @@ spring:
             
       bindings:
         producer-out-0:
+            binder: kafka
             destination : first-topic
             producer:
                 useNativeEncoding: true # This enables using the custom serializer
         consumer-in-0:
+            binder: kafka
             destination : first-topic
             consumer:
               use-native-decoding: true # This enables using the custom deserializer
