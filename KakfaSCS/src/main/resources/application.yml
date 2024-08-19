@@ -28,3 +28,24 @@ spring:
             destination : first-topic
             consumer:
               use-native-decoding: true # This enables using the custom deserializer
+  # kafka:
+  #   consumer:
+  #     group-id: forward_group
+  #     bootstrap-servers: localhost:9091 #Consumer from Broker 1 
+  #     auto-offset-reset: earliest
+
+  #   producer:
+  #     bootstrap-servers: localhost:9092 #Produce to Broker 2
+  #     value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
+  #     default-topic: second-topic #Topic on broker 2
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: my-group
+      auto-offset-reset: earliest

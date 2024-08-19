@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -23,6 +24,14 @@ public class IshanKafkaDemoApplication {
 		SpringApplication.run(IshanKafkaDemoApplication.class, args);
 	}
 
+	// private final KafkaTemplate<String, String> kafkaTemplate;
+    // private final String topic = "your-topic-name"; // Replace with your Kafka topic
+
+    // // Constructor Injection
+    // public IshanKafkaDemoApplication(KafkaTemplate<String, String> kafkaTemplate) {
+    //     this.kafkaTemplate = kafkaTemplate;
+    // }
+
 	//Bean is an object that Spring Manages for me 
 	//When needed, I get the bean from the application context 
 	@Bean
@@ -31,10 +40,10 @@ public class IshanKafkaDemoApplication {
     }
 
 	//Stream Cloud Stream itself will invoke this method on regular intervals 
-	// @Bean
-	// public Supplier<Message> producer() {
-	// 	return () -> new Message(" jack from Streams");
-	// }
+	@Bean
+	public Supplier<Message> producer() {
+		return () -> new Message(" jack from Streams");
+	}
 
 	//Invoked when a message is sent to its binding 
 	@Bean
