@@ -12,6 +12,7 @@ spring:
                 value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
           consumer-in-0:
             consumer:
+              batch-mode: true
               configuration:
                 value.deserializer: com.ishan.phadte.dto.coverters.MessageDeSerializer
         binder:
@@ -39,13 +40,41 @@ spring:
   #     value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
   #     default-topic: second-topic #Topic on broker 2
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: my-group
-      auto-offset-reset: earliest
+  # kafka:
+  #   bootstrap-servers: localhost:9092
+  #   producer:
+  #     key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #     value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #   consumer:
+  #     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #     value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  #     group-id: my-group
+  #     auto-offset-reset: earliest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,beans  # Include multiple endpoints
+  endpoint:
+    health:
+      show-details: always  # Show health details
+    info:
+      enabled: true  # Ensure the info endpoint is enabled
+
+    beans:
+      enabled: true  # Ensure the info endpoint is enabled
+
+# server:
+#   port: 8080
+#   servlet:
+#     context-path: /myapp
+#     session:
+#       timeout: 30m
+#   tomcat:
+#     max-threads: 200
+#     connection-timeout: 20000
+#     access-log:
+#       enabled: true
+#       pattern: common
+

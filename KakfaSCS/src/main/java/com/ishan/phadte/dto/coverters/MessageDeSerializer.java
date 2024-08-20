@@ -14,9 +14,17 @@ public class MessageDeSerializer implements Deserializer<Message> {
     @Override
     public Message deserialize(String topic, byte[] data) {
         try {
-            return objectMapper.readValue(new String(data), Message.class);
+            // Attempt to deserialize the data into a Message object
+            Message message = objectMapper.readValue(data, Message.class);
+            
+            // Check if the payload is a String and convert it to byte[] if necessary
+            if (message.getPayload() instanceof String) {
+                message = new Message(message.header(), ((String) message.getPayload()).getBytes());
+            }
+
+            return message;
         } catch (IOException e) {
-            throw new SerializationException(e);
+            throw new SerializationException("Error deserializing message", e);
         }
     }
 }
