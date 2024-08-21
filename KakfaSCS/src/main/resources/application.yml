@@ -9,12 +9,14 @@ spring:
           reservationProducer-out-0:
             producer:
               configuration:
-                value.serializer: com.ishan.phadte.dto.coverters.ReservationSerializer
+                key-serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
           reservationConsumer-in-0:
             consumer:
               batch-mode: true
               configuration:
-                value.deserializer: com.ishan.phadte.dto.coverters.ReservationDeSerializer
+                key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
         binder:
           brokers: localhost:9092
             
@@ -22,13 +24,13 @@ spring:
         reservationProducer-out-0:
             binder: kafka
             destination : reservations-topic
-            producer:
-                useNativeEncoding: true # This enables using the custom serializer
+            # producer:
+            #     useNativeEncoding: true # This enables using the custom serializer
         reservationConsumer-in-0:
             binder: kafka
             destination : reservations-topic
-            consumer:
-              use-native-decoding: true # This enables using the custom deserializer
+            # consumer:
+            #   use-native-decoding: true # This enables using the custom deserializer
   kafka:
     topic: reservations-topic
     producer:
@@ -62,16 +64,3 @@ management:
 
     beans:
       enabled: true  # Ensure the info endpoint is enabled
-
-# server:
-#   port: 8080
-#   servlet:
-#     context-path: /myapp
-#     session:
-#       timeout: 30m
-#   tomcat:
-#     max-threads: 200
-#     connection-timeout: 20000
-#     access-log:
-#       enabled: true
-#       pattern: common

@@ -28,6 +28,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.ishan.phadte.dto.Message;
 import com.ishan.phadte.dto.Reservation;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ishan.phadte.dto.Headers;
 
 import org.springframework.messaging.support.MessageBuilder;
@@ -112,29 +113,51 @@ public class IshanKafkaDemoApplication {
     private StreamBridge streamBridge;
 
 	@Autowired
-    private KafkaTemplate<String, Reservation> kafkaTemplate;
+    private KafkaTemplate<String, byte[]> kafkaTemplate;
+	private final ObjectMapper objectMapper = new ObjectMapper(); // Used for JSON conversion
+
 
 	@Value("${kafka.topic.name:reservations-topic}")
 	private String topicName;
 
+	@Bean
+    public Consumer<Message> consumer() {
+        return message -> System.out.println("received " + message);
+    }
+
+
+    // @Bean
+    // public Supplier<Message> producer() {
+    //     return () -> new Message(" jack from Streams");
+    // }
+
 
 
 	// @Bean
-    // public Supplier<Reservation> reservationProducer(){
-    //     //streamBridge.send("reservationProducer-out-0", new Reservation("5"));
-	// 	return () -> new Reservation("a","b");
+    // public Supplier<Message> reservationProducer(){
+    //     kafkaTemplate.send("reservationProducer-out-0", new Message("5"));
+	// 	// return () -> new Reservation("a","b");
     // }
 
-    @Scheduled(cron = "*/2 * * * * *")
+	@Scheduled(cron = "*/2 * * * * *")
     public void sendMessage(){
-		// Create a map of headers (you might want to customize this)
-        Map<String, String> headers = new HashMap<>();
-        headers.put("header1", "value1"); // Add your headers here
-        headers.put("header2", "value2");
-		System.out.println("Sent Message");
+		String message = "jack from Stream bridge";
 
-        kafkaTemplate.send("reservationProducer-out-0", new Reservation("c","d", headers));
+        // Convert the string to a byte array
+        byte[] byteArrayMessage = message.getBytes();
+        kafkaTemplate.send("reservations-topic",byteArrayMessage);
     }
+
+    // @Scheduled(cron = "*/2 * * * * *")
+    // public void sendMessage(){
+	// 	// Create a map of headers (you might want to customize this)
+    //     Map<String, String> headers = new HashMap<>();
+    //     headers.put("header1", "value1"); // Add your headers here
+    //     headers.put("header2", "value2");
+	// 	System.out.println("Sent Message");
+
+    //     kafkaTemplate.send("reservationProducer-out-0", new Reservation("c","d", headers));
+    // }
 
 	// @Scheduled(cron = "*/5 * * * * *") // Check every 5 seconds
     // public void checkTopicSize() {
@@ -162,10 +185,10 @@ public class IshanKafkaDemoApplication {
     //     }
     // }
 
-	@Bean
-    public Consumer<Reservation> reservationConsumer() {
-        return message -> System.out.println("received " + message);
-    }
+	// @Bean
+    // public Consumer<Reservation> reservationConsumer() {
+    //     return message -> System.out.println("received " + message);
+    // }
 
 
 

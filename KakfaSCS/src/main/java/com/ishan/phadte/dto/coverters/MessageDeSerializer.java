@@ -17,27 +17,10 @@ public class MessageDeSerializer implements Deserializer<Message> {
 
     @Override
     public Message deserialize(String topic, byte[] data) {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
-             ObjectInputStream ois = new ObjectInputStream(bais)) {
-
-            // Read header length and header
-            int headerLength = ois.read();
-            byte[] headerBytes = new byte[headerLength];
-            ois.read(headerBytes);
-            Headers headers = objectMapper.readValue(headerBytes, Headers.class);
-
-            // Read payload length and payload
-            int payloadLength = ois.read();
-            byte[] payloadBytes = new byte[payloadLength];
-            ois.read(payloadBytes);
-            Object payload = objectMapper.readValue(payloadBytes, Object.class);
-
-            return new Message(headers, payload);
-        } catch (JsonProcessingException e) {
-            throw new SerializationException("Error serializing message", e);
+        try {
+            return objectMapper.readValue(new String(data), Message.class);
         } catch (IOException e) {
-            throw new SerializationException("Error combining serialized parts", e);
+            throw new SerializationException(e);
         }
     }
 }
-
