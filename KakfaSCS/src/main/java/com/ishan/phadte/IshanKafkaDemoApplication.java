@@ -22,7 +22,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -112,6 +111,9 @@ public class IshanKafkaDemoApplication {
 	@Autowired
     private StreamBridge streamBridge;
 
+	@Autowired
+    private KafkaTemplate<String, Reservation> kafkaTemplate;
+
 	@Value("${kafka.topic.name:reservations-topic}")
 	private String topicName;
 
@@ -131,7 +133,7 @@ public class IshanKafkaDemoApplication {
         headers.put("header2", "value2");
 		System.out.println("Sent Message");
 
-        streamBridge.send("reservationProducer-out-0", new Reservation("c","d", headers));
+        kafkaTemplate.send("reservationProducer-out-0", new Reservation("c","d", headers));
     }
 
 	// @Scheduled(cron = "*/5 * * * * *") // Check every 5 seconds

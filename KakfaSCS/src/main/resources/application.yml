@@ -30,10 +30,11 @@ spring:
             consumer:
               use-native-decoding: true # This enables using the custom deserializer
   kafka:
+    topic: reservations-topic
     producer:
       properties:
           queue.buffering.max.messages: 5  # Maximum number of messages to buffer
-  #     bootstrap-servers: localhost:9092 #Produce to Broker 2
+      bootstrap-servers: localhost:9092 #Produce to Broker 2
   #     value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
   #     default-topic: second-topic #Topic on broker 2
 
