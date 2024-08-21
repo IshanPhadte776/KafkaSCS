@@ -1,41 +1,38 @@
 spring:
   cloud:
     function:
-      definition: consumer;producer
+      definition: reservationProducer;reservationConsumer
     stream:
       default-binder: kafka
       kafka:
         bindings:
-          producer-out-0:
+          reservationProducer-out-0:
             producer:
               configuration:
-                value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
-          consumer-in-0:
+                value.serializer: com.ishan.phadte.dto.coverters.ReservationSerializer
+          reservationConsumer-in-0:
             consumer:
               batch-mode: true
               configuration:
-                value.deserializer: com.ishan.phadte.dto.coverters.MessageDeSerializer
+                value.deserializer: com.ishan.phadte.dto.coverters.ReservationDeSerializer
         binder:
           brokers: localhost:9092
             
       bindings:
-        producer-out-0:
+        reservationProducer-out-0:
             binder: kafka
-            destination : first-topic
+            destination : reservations-topic
             producer:
                 useNativeEncoding: true # This enables using the custom serializer
-        consumer-in-0:
+        reservationConsumer-in-0:
             binder: kafka
-            destination : first-topic
+            destination : reservations-topic
             consumer:
               use-native-decoding: true # This enables using the custom deserializer
-  # kafka:
-  #   consumer:
-  #     group-id: forward_group
-  #     bootstrap-servers: localhost:9091 #Consumer from Broker 1 
-  #     auto-offset-reset: earliest
-
-  #   producer:
+  kafka:
+    producer:
+      properties:
+          queue.buffering.max.messages: 5  # Maximum number of messages to buffer
   #     bootstrap-servers: localhost:9092 #Produce to Broker 2
   #     value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
   #     default-topic: second-topic #Topic on broker 2
@@ -77,4 +74,3 @@ management:
 #     access-log:
 #       enabled: true
 #       pattern: common
-

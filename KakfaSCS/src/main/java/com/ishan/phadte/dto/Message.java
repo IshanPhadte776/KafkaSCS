@@ -3,9 +3,13 @@ package com.ishan.phadte.dto;
 // public record Message(String name) {
 // }
 
-public record Message (String header, Object payload){
+public record Message (Headers headers, Object payload){
     public Object getPayload(){
         return payload;
+    }
+
+    public Headers getHeaders(){
+        return headers;
     }
 
     @Override
@@ -18,7 +22,7 @@ public record Message (String header, Object payload){
         }
 
         return "Message {" +
-            "header='" + header + '\'' +
+            "header='" + headers + '\'' +
             ", payload=" + payloadStr +
             '}';
     }
