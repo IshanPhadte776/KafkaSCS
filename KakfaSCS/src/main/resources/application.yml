@@ -1,66 +1,27 @@
 spring:
   cloud:
     function:
-      definition: reservationProducer;reservationConsumer
+      definition: consumer;producer
     stream:
-      default-binder: kafka
       kafka:
         bindings:
-          reservationProducer-out-0:
+          producer-out-0:
             producer:
               configuration:
-                key-serializer: org.apache.kafka.common.serialization.StringSerializer
-                value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
-          reservationConsumer-in-0:
+                value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
+          consumer-in-0:
             consumer:
-              batch-mode: true
               configuration:
-                key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-                value.deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+                value.deserializer: com.ishan.phadte.dto.coverters.MessageDeSerializer
         binder:
           brokers: localhost:9092
             
       bindings:
-        reservationProducer-out-0:
-            binder: kafka
-            destination : reservations-topic
-            # producer:
-            #     useNativeEncoding: true # This enables using the custom serializer
-        reservationConsumer-in-0:
-            binder: kafka
-            destination : reservations-topic
-            # consumer:
-            #   use-native-decoding: true # This enables using the custom deserializer
-  kafka:
-    topic: reservations-topic
-    producer:
-      properties:
-          queue.buffering.max.messages: 5  # Maximum number of messages to buffer
-      bootstrap-servers: localhost:9092 #Produce to Broker 2
-  #     value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
-  #     default-topic: second-topic #Topic on broker 2
-
-  # kafka:
-  #   bootstrap-servers: localhost:9092
-  #   producer:
-  #     key-serializer: org.apache.kafka.common.serialization.StringSerializer
-  #     value-serializer: org.apache.kafka.common.serialization.StringSerializer
-  #   consumer:
-  #     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  #     value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-  #     group-id: my-group
-  #     auto-offset-reset: earliest
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,beans  # Include multiple endpoints
-  endpoint:
-    health:
-      show-details: always  # Show health details
-    info:
-      enabled: true  # Ensure the info endpoint is enabled
-
-    beans:
-      enabled: true  # Ensure the info endpoint is enabled
+        producer-out-0:
+            destination : first-topic
+            producer:
+                useNativeEncoding: true # This enables using the custom serializer
+        consumer-in-0:
+            destination : first-topic
+            consumer:
+              use-native-decoding: true # This enables using the custom deserializer
