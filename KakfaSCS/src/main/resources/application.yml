@@ -1,14 +1,20 @@
 spring:
   cloud:
     function:
-      definition: consumer;producer
+      definition: consumer;producer;consumer1;producer1
     stream:
       kafka:
         bindings:
+          producer-out-1:
+            producer:
+              configuration:
+                value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
+
           producer-out-0:
             producer:
               configuration:
                 value.serializer: com.ishan.phadte.dto.coverters.MessageSerializer
+                
           consumer-in-0:
             consumer:
               configuration:
@@ -17,11 +23,34 @@ spring:
           brokers: localhost:9092
             
       bindings:
-        producer-out-0:
+        producer-out-1:
             destination : first-topic
             producer:
-                useNativeEncoding: true # This enables using the custom serializer
+              group: reserve-group
+              useNativeEncoding: true # This enables using the custom serializer
+
+        producer-out-0:
+            destination : second-topic
+            producer:
+              group: confirmation-group
+              useNativeEncoding: true # This enables using the custom serializer
         consumer-in-0:
             destination : first-topic
             consumer:
+              group: reserve-group
               use-native-decoding: true # This enables using the custom deserializer
+
+        consumer-in-1:
+            destination : second-topic
+            consumer:
+              group: confirmation-group
+              use-native-decoding: true # This enables using the custom deserializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans  # Include the beans endpoint among others
+  endpoint:
+    beans:
+      enabled: true  # Ensure that the beans endpoint is enabled

@@ -35,9 +35,14 @@ public class IshanKafkaDemoApplication {
 	@Scheduled(cron = "*/2 * * * * *")
 	//This is getting called
 	public void sendReservation(){
-		System.out.println("Pre MEssage");
-        streamBridge.send("producer-out-0",new Message(" Reservation"));
-		System.out.println("Post MEssage");
+        streamBridge.send("producer-out-0",new Message(" ReservationA"));
+
+    }
+
+	@Scheduled(cron = "*/2 * * * * *")
+	//This is getting called
+	public void sendReservationB(){
+        streamBridge.send("producer-out-1",new Message(" ReservationB"));
 
     }
 	// @Scheduled(cron = "*/2 * * * * *")
@@ -47,15 +52,27 @@ public class IshanKafkaDemoApplication {
 
 	@Bean
     public Consumer<Message> consumer() {
-        return message -> System.out.println("Received: " + message);
+        return message -> System.out.println("Received: A" + message);
     }
 
 	@Bean
 	//Called 
 	public Supplier<Message> producer() {
 		return () -> {
-			Message message = new Message("jack from Streams");
-			System.out.println("Produced: " + message);
+			Message message = new Message("B from Streams");
+			return message;
+		};
+	}
+	@Bean
+    public Consumer<Message> consumer1() {
+        return message -> System.out.println("Received: B" + message);
+    }
+
+	@Bean
+	//Called 
+	public Supplier<Message> producer1() {
+		return () -> {
+			Message message = new Message("B from Streams");
 			return message;
 		};
 	}
