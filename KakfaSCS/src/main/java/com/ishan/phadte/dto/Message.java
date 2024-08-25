@@ -1,6 +1,6 @@
 package com.ishan.phadte.dto;
 
-public record Message (String placedOrderTime ){
+public record Message (String message ){
 
     // @Override
     // public String toString() {

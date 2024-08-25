@@ -1,6 +1,4 @@
 package com.ishan.phadte.dto;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public record Reservation (int id, String name, int partySize, String placedOrderTime){
 
