@@ -1,29 +1,10 @@
 package com.ishan.phadte.dto;
 
-// public record Message(String name) {
-// }
-
-public record Message ( Object payload){
-    public Object getPayload(){
-        return payload;
-    }
-
-    // public Headers getHeaders(){
-    //     return headers;
-    // }
+public record Message (String placedOrderTime ){
 
     // @Override
     // public String toString() {
-    //     String payloadStr;
-    //     if (payload instanceof byte[]) {
-    //         payloadStr = new String((byte[]) payload);
-    //     } else {
-    //         payloadStr = payload.toString();
-    //     }
-
-    //     return "Message {" +
-    //         "header='" + headers + '\'' +
-    //         ", payload=" + payloadStr +
-    //         '}';
+    //     return String.format("Reservation ID %d: A party of %d named '%s' was successfully booked. The reservation was placed at %s.",
+    //         id, partySize, name, placedOrderTime);
     // }
 }

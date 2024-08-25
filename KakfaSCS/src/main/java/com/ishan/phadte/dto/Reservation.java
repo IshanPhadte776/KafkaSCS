@@ -1,15 +1,30 @@
 package com.ishan.phadte.dto;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-import java.util.Map;
+public record Reservation (int id, String name, int partySize, String placedOrderTime){
 
-import com.ishan.phadte.dto.Headers;
+    public String getName(){
+        return name;
+    }
 
-public record Reservation (String id, String name, Map<String, String> headers){
-    // public String getName(){
-    //     return name;
-    // }
+    public int getId(){
+        return id;
+    }
 
-    // public String getPartySize(){
-    //     return partySize;
-    // }
+    public int getPartySize(){
+        return partySize;
+    }
+
+    public String getPlacedOrderTime(){
+        return placedOrderTime;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Reservation [ID=%d, Name='%s', Party Size=%d, Placed Order Time='%s']",
+                id, name, partySize, placedOrderTime);
+    }
+    
+
 }
