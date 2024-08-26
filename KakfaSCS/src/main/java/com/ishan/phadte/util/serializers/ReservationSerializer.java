@@ -1,12 +1,11 @@
-package com.ishan.phadte.dto.coverters;
+package com.ishan.phadte.util.serializers;
 
-import com.ishan.phadte.dto.Message;
-import com.ishan.phadte.dto.Reservation;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ishan.phadte.util.Reservation;
 
 public class ReservationSerializer implements Serializer<Reservation>{
     private final ObjectMapper objectMapper = new ObjectMapper();

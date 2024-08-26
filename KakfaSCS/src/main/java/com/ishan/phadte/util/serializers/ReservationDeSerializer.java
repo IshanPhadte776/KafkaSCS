@@ -1,14 +1,14 @@
-package com.ishan.phadte.dto.coverters;
+package com.ishan.phadte.util.serializers;
 
 import java.io.IOException;
-
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ishan.phadte.dto.Reservation;
+import com.ishan.phadte.util.Reservation;
 
-public class ReservationDeSerializer implements Deserializer<Object>{
+public class ReservationDeSerializer implements Deserializer<Reservation> {
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -19,5 +19,4 @@ public class ReservationDeSerializer implements Deserializer<Object>{
             throw new SerializationException(e);
         }
     }
-    
 }

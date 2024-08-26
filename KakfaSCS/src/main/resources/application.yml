@@ -8,13 +8,12 @@ spring:
           producer-out-0:
             producer:
               configuration:
-                client.id: producer0
-                value.serializer: com.ishan.phadte.dto.coverters.ReservationSerializer
+                value.serializer: com.ishan.phadte.util.serializers.ReservationSerializer
                 
           consumer-in-0:
             consumer:
               configuration:
-                value.deserializer: com.ishan.phadte.dto.coverters.ReservationDeSerializer
+                value.deserializer: com.ishan.phadte.util.serializers.ReservationDeSerializer
 
         binder:
           brokers: localhost:9092
@@ -23,13 +22,11 @@ spring:
         producer-out-0:
             destination : first-topic
             producer:
-              group: reserve-group
               useNativeEncoding: true # This enables using the custom serializer
 
         consumer-in-0:
             destination : first-topic
             consumer:
-              group: reserve-group
               use-native-decoding: true # This enables using the custom deserializer
 
 management:

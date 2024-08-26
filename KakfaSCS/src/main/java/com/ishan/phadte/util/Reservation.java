@@ -1,6 +1,6 @@
-package com.ishan.phadte.dto;
+package com.ishan.phadte.util;
 
-public record Reservation (int id, String name, int partySize, String placedOrderTime){
+public record Reservation (int id, String name, int partySize, String placedOrderTime, boolean sentReservationConfirm){
 
     public String getName(){
         return name;
@@ -16,6 +16,10 @@ public record Reservation (int id, String name, int partySize, String placedOrde
 
     public String getPlacedOrderTime(){
         return placedOrderTime;
+    }
+
+    public boolean getSentReservationConfirm(){
+        return sentReservationConfirm;
     }
 
     @Override

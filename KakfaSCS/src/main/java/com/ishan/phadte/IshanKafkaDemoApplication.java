@@ -7,12 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.ishan.phadte.dto.Message;
-import com.ishan.phadte.dto.Reservation;
+import com.ishan.phadte.util.Reservation;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -53,49 +51,38 @@ public class IshanKafkaDemoApplication {
 
         // Send to the first topic
         streamBridge.send("producer-out-0", 
-            MessageBuilder.withPayload(new Reservation(reservationID, "Name", 5, getCurrentTime() ))
+            MessageBuilder.withPayload(new Reservation(reservationID, "Ishan", 5, getCurrentTime(),false ))
             .setHeader("spring.cloud.stream.sendto.destination", "first-topic")
-			.setHeader("message-type", "reservation")
             .build());    
     }
 
-    public void sendReservationConfirm(String name) {
-		System.out.println("called");
-        // Send to the second topic
-        streamBridge.send("producer-out-0", 
-            MessageBuilder.withPayload(new Message("Sending Confirmation Message"))
-            .setHeader("spring.cloud.stream.sendto.destination", "second-topic")
-			.setHeader("message-type", "message")
-            .build());    
-    }
+    public void sendReservationConfirm(int id, String name, int partySize, String placedOrderTime, boolean sentReservationConfirm) {
+		// Send a confirmation message as a plain string to the second topic
+		streamBridge.send("producer-out-0", 
+			MessageBuilder.withPayload(new Reservation(id,name,partySize,placedOrderTime,true))
+			.setHeader("spring.cloud.stream.sendto.destination", "second-topic")
+			.build());
+	}
 
     @Bean
-    public Consumer<Object> consumer() {
+    public Consumer<Reservation> consumer() {
         return payload -> {
 
-			System.out.println(payload);
 
-			if (payload instanceof Message) {
-                Message message = (Message) payload;
-                System.out.println("Received Message: " + message);
-                
-                // Perform Message-specific logic here
-
+			if (payload.getSentReservationConfirm()) {
+				String confirmationMessage = "Reservation for " + payload.getName() + " has been confirmed.";
+                System.out.println(confirmationMessage);
 
 			}
             // Check if the payload is a Reservation
-            else if (payload instanceof Reservation) {
+            else  {
                 Reservation reservation = (Reservation) payload;
                 System.out.println("Received Reservation: " + reservation);
 
                 // Perform Reservation-specific logic here
-                sendReservationConfirm(reservation.getName());
+                sendReservationConfirm(payload.getId(), payload.getName(), payload.getPartySize(), payload.getPlacedOrderTime(), true);
             
-            // Check if the payload is a Message
-            
-            } else {
-                System.out.println("Received unknown payload type: " + payload);
-            }
+			}
         };
     }
 
