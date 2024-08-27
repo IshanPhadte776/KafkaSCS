@@ -16,3 +16,17 @@ This project is an event-driven reservation system where users can make reservat
 - **Spring Cloud**
 - **Spring Cloud Stream**
 - **Apache Kafka**
+
+
+## Sample Output 
+
+Received Reservation: Reservation [ID=1, Name='Ishan', Party Size=5, Placed Order Time='19:19:45']
+Reservation for Ishan has been confirmed.
+Received Reservation: Reservation [ID=2, Name='Ishan', Party Size=5, Placed Order Time='19:19:50']
+Reservation for Ishan has been confirmed.
+Received Reservation: Reservation [ID=3, Name='Ishan', Party Size=5, Placed Order Time='19:19:55']
+Reservation for Ishan has been confirmed.
+Received Reservation: Reservation [ID=4, Name='Ishan', Party Size=5, Placed Order Time='19:20:00']
+Reservation for Ishan has been confirmed.
+
+
