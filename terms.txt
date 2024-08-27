@@ -1,0 +1,33 @@
+Spring Application Explained 
+
+
+Spring - IoC, AoP, DI
+
+Spring Boot - Helps with building Spring Projects
+
+Spring Cloud - Microservices, Distributed Systems 
+
+Spring Cloud Stream - Event Driven Microservices 
+
+Beans - Object managed by Spring 
+
+Aspect Oriented Programming -
+
+- @ Symbols, Provides functionality like calling code before or after all function calls 
+- Allows for tagging
+
+Inversion of Control - Framework itself handles the maintain once of objects and dependencies. Less passing of objects in function definitions.  
+
+Dependecy Injection - Create an object and then inject dependencies into it directly (Autowiring) 
+
+Profiling - Measuring Runtime, memory, bottlenecks, etc 
+
+Binder - Abstract and underlying tech to handle communication 
+
+Binding - Specific mapping for input / output for messaging channels 
+
+Serialization - We want to send messages / data as bytes, not strings / objects for efficiency’s sake. Used custom serializations for a loosely coupled system (So we can swap out the broker If wanted) 
+
+Topics - ITs like an address, for Facebook marketplace drop-off 
+
+Dynamic Destination - To enable changing the target destination at runtime. 
