@@ -1,4 +1,4 @@
-# Restaurant Reservation System
+# Reverse Mate
 
 ## Purpose
 Work with various Java and Spring style technologies to build a robust and scalable event-driven application.
