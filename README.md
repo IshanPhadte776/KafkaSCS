@@ -1,7 +1,8 @@
 # Reverse Mate
 
 ## Purpose
-Work with various Java and Spring style technologies to build a robust and scalable event-driven application.
+- Work with various Java and Spring style technologies to build a robust and scalable event-driven application.
+- Discover the use of Event Driven Architecture 
 
 ## Project Story
 Solve the ad-hoc restaurant reservation problem by creating a system that efficiently handles reservations and provides real-time feedback to users.
