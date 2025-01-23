@@ -80,7 +80,7 @@ public class IshanKafkaDemoApplication {
                 	System.out.println("Received Reservation: " + reservation);
 
                 	// Perform Reservation-specific logic here
-                	sendReservationConfirm(payload.getId(), payload.getName(), payload.getPartySize(), payload.getPlacedOrderTime(), true);
+                	//sendReservationConfirm(payload.getId(), payload.getName(), payload.getPartySize(), payload.getPlacedOrderTime(), true);
 		}
         };
     }
