@@ -45,6 +45,7 @@ public class IshanKafkaDemoApplication {
         return currentTime.format(formatter);
     }
 
+    //Sends Reservation Objects	to a specific topic(first-topic) on a specific binding (producer-out-O)
     @Scheduled(cron = "*/5 * * * * *")
     public void placeReservation() {
         reservationID++;
@@ -69,20 +70,18 @@ public class IshanKafkaDemoApplication {
         return payload -> {
 
 
-			if (payload.getSentReservationConfirm()) {
-				String confirmationMessage = "Reservation for " + payload.getName() + " has been confirmed.";
-                System.out.println(confirmationMessage);
+		if (payload.getSentReservationConfirm()) {
+			String confirmationMessage = "Reservation for " + payload.getName() + " has been confirmed.";
+                	System.out.println(confirmationMessage);
+		}
+            	// Check if the payload is a Reservation
+            	else  {
+                	Reservation reservation = (Reservation) payload;
+                	System.out.println("Received Reservation: " + reservation);
 
-			}
-            // Check if the payload is a Reservation
-            else  {
-                Reservation reservation = (Reservation) payload;
-                System.out.println("Received Reservation: " + reservation);
-
-                // Perform Reservation-specific logic here
-                sendReservationConfirm(payload.getId(), payload.getName(), payload.getPartySize(), payload.getPlacedOrderTime(), true);
-            
-			}
+                	// Perform Reservation-specific logic here
+                	sendReservationConfirm(payload.getId(), payload.getName(), payload.getPartySize(), payload.getPlacedOrderTime(), true);
+		}
         };
     }
 
