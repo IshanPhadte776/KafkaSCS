@@ -57,13 +57,13 @@ public class IshanKafkaDemoApplication {
             .build());    
     }
 
-    public void sendReservationConfirm(int id, String name, int partySize, String placedOrderTime, boolean sentReservationConfirm) {
-		// Send a confirmation message as a plain string to the second topic
-		streamBridge.send("producer-out-0", 
-			MessageBuilder.withPayload(new Reservation(id,name,partySize,placedOrderTime,true))
-			.setHeader("spring.cloud.stream.sendto.destination", "second-topic")
-			.build());
-	}
+ //    public void sendReservationConfirm(int id, String name, int partySize, String placedOrderTime, boolean sentReservationConfirm) {
+	// 	// Send a confirmation message as a plain string to the second topic
+	// 	streamBridge.send("producer-out-0", 
+	// 		MessageBuilder.withPayload(new Reservation(id,name,partySize,placedOrderTime,true))
+	// 		.setHeader("spring.cloud.stream.sendto.destination", "second-topic")
+	// 		.build());
+	// }
 
     @Bean
     public Consumer<Reservation> consumer() {
@@ -71,8 +71,8 @@ public class IshanKafkaDemoApplication {
 
 
 		if (payload.getSentReservationConfirm()) {
-			String confirmationMessage = "Reservation for " + payload.getName() + " has been confirmed.";
-                	System.out.println(confirmationMessage);
+			// String confirmationMessage = "Reservation for " + payload.getName() + " has been confirmed.";
+   //              	System.out.println(confirmationMessage);
 		}
             	// Check if the payload is a Reservation
             	else  {
